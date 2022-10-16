@@ -1,5 +1,6 @@
 :: --- WEEK 01 ASSIGNMENT - SHELL (02) - ENRICO VACCARI ---
 
+@echo off
 :: --- MAYA VERSION ---
 set "MAYA_VERSION=2022"
 
