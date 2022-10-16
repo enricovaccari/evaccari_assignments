@@ -4,3 +4,4 @@ It gives you great flexibility in the creation of shelves/menus and tool organis
 
 > Making your Maya workflow efficient is key to professionalism.
 > Works for Maya 2018+
+> Work in progress...
