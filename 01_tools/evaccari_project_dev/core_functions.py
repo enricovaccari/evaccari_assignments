@@ -71,7 +71,7 @@ def identify_tool_type(tool_list):
         if _tool_type
 
 
-
+# THIS IS A TEST
 
 
 
@@ -80,4 +80,3 @@ def identify_tool_type(tool_list):
 
 
 dir_list = list_tools(SCRIPT_PATH)
-print(dir_list)
