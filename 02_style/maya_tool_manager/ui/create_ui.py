@@ -1,7 +1,35 @@
+#**********************************************************************************
+# content		= creates UI for Maya Tool Manager (MTM)
+#
+# version		= 0.0.1
+# date			= 2022-10-13
+#
+# how to		= create_ui()
+# dependencies	= PySide
+# todos         = ...
+# 
+# license		= ... (MIT)
+# author		= Enrico Vaccari <e.vaccari99@gmail.com>
+#
+# © ALL RIGHTS RESERVED
+#**********************************************************************************
+
+#**********************************************************************************
+# IMPORTS
+#**********************************************************************************
+
+# Python API
 import os
 import sys
 import importlib as imp
+
+# 3rd party API
 import maya.cmds as cmds
+# from Qt import QtWidgets, QtGui, QtCore, QtCompat
+
+#**********************************************************************************
+# VARIABLES
+#**********************************************************************************
 
 # constants
 SCRIPTS_PATH = cmds.internalVar(usd=True)
@@ -30,6 +58,10 @@ try:
 except:
     reload(tc)
 
+#**********************************************************************************
+# FUNCTION DEFINITIONS
+#**********************************************************************************
+
 # THIS IS A TEST (inside the UI in the buttons)
 
 def create_UI():
@@ -41,33 +73,37 @@ def create_UI():
     print('\n')
 
     for tool_name in tools:
-        
+        # get tool path
         print('\n\n' + tool_name.upper() + ' (PATH)\n')
         tool_path = cf.get_tool_path(tool_name)
         print(tool_path)
         print('\n')
 
-        
+        # get tool content
         print('\n' + tool_name.upper() + ' (CONTENT)\n')
         tool_content = cf.list_tool_content(tool_path)
         print(tool_content)
         print('\n')
  
+        # validate (1) - id
         print('\n' + tool_name.upper() + ' (ID_CHECK)\n')
         id_check = tc.id_check(tool_path, tool_content)
         print(id_check)
         print('\n')
 
+        # validate (2) - main script
         print('\n' + tool_name.upper() + ' (MAIN_CHECK)\n')
         main_check = tc.main_script_check(tool_path, tool_content)
         print(main_check)
         print('\n')
 
+        # validate (3)
         print('\n' + tool_name.upper() + ' (SUM_CHECK)\n')
         check_sum = tc.check_sum(id_check, main_check)
         print(check_sum)
         print('\n')
 
+        # append (if valid)
         tc.append_if_valid(tool_name, check_sum)
 
     print('\n\nVALIDATED TOOLS\n')
@@ -75,6 +111,7 @@ def create_UI():
     print(checked_tools)
     print('\n\n')
     
+# wip
 
 #     for ...
 #     # # VALIDATE CHECK

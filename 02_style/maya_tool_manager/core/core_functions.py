@@ -1,3 +1,17 @@
+#******************************************************************************
+# content         = identifies all the existing applications in the "scripts"
+#                   of your installed Maya package
+#
+# creation date   = 13/10/2022 
+#
+# author          = Enrico Vaccari <e.vaccari99@gmail.com>
+#
+# © ALL RIGHTS RESERVED
+#******************************************************************************
+
+#**********************************************************************************
+# IMPORTS
+#**********************************************************************************
 
 # Python API
 import os
@@ -7,6 +21,9 @@ import importlib as imp
 # 3rd party API
 import maya.cmds as cmds
 
+#******************************************************************************
+# GLOBAL VARIABLES
+#******************************************************************************
 
 # constants
 SCRIPTS_PATH = cmds.internalVar(usd=True)
@@ -16,9 +33,22 @@ TARGET       = "tool_type"
 simple_tools  =  []
 ui_based_tools = []
 
+#******************************************************************************
+# FUNCTION DEFINITIONS
+#******************************************************************************
+
 # LOAD ALL - tools list
 def list_tools(folder_path): # SCRIPTS_PATH
-   
+    """ 
+    Returns all the tools (directories) stored in the Maya 
+    scripts directory
+
+    Args:
+        folder_path (str): directory path target
+
+    Returns:
+        list: list of all the found items (files & directories)
+    """    
     dir_list = os.listdir(folder_path)
     # This automatically works with .encode, so I don't have to get raw strings
     
@@ -37,7 +67,16 @@ def get_tool_path(tool_name):
 
  # VALIDATE PREP - tool content
 def list_tool_content(tool_path):
+    """
+    This function returns all the files/directories of a tool in the form
+    of a <list> 
 
+    Args:
+        tool_path (str): directory path target (tool)
+
+    Returns:
+        list: list of all the found items (files & directories)
+    """   
     tool_content = os.listdir(tool_path)
     return tool_content
 
@@ -67,6 +106,8 @@ def classify_tools(tool_name, tool_type):
         simple_tools.append(tool_name)
     elif tool_type == 'UI-based':
         ui_based_tools.append(tool_name)
+
+
 
 
 # THIS IS A TEST

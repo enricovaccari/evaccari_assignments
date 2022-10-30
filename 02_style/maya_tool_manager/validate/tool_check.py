@@ -120,7 +120,7 @@ def id_check(tool_path, tool_content):
 
 # VALIDATE (2) - main script
 def main_script_check(tool_path, tool_content):
-        """
+    """
     Checks if too has id directory containing tool_type and short_name
 
     Args:
@@ -137,9 +137,10 @@ def main_script_check(tool_path, tool_content):
         title   = 'MAIN SCRIPT WINDOW (missing file)'
         message = r'WAIT! The following tool: "' + tool_name + '" has currently no main.py file, therefore it will be skipped.' 
         result  = popup_functions.check_popup(title, message)
+        
         if result == 'HELP':
                 print('HELP')
-                # wb.open('https://docs.google.com/document/d/1AHmaFD_qosOqqG81MAYirCgxqoIhbEo-aBSHvFlNBM4/edit?usp=sharing')
+                # wb.open('insert link of Wiki')
         check = 0
 
     return check
@@ -147,6 +148,7 @@ def main_script_check(tool_path, tool_content):
 def check_sum(id_check, main_check):
     check_sum = id_check + main_check
     return check_sum
+
 # VALIDATE (3) - append to validates
 def append_if_valid(tool_name, check_sum):
     if check_sum == 2:
@@ -154,8 +156,7 @@ def append_if_valid(tool_name, check_sum):
     return
 
 
-
-id_check(SCRIPTS_PATH + 'evaccari_automatic_texture_plugger', [id])
+# id_check(SCRIPTS_PATH + 'evaccari_automatic_texture_plugger', [id])
 
 
 
