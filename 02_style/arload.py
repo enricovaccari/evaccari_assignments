@@ -1,17 +1,4 @@
-#************************************************************************************
-# content		= ...
-#
-# version		= 0.0.0
-# date			= 00/00/0000
-#
-# how to		= start()
-# dependencies	= PySide2, Plex
-# todos         = ...
-# 
-# license		= MIT <https://github.com/alexanderrichtertd>
-# author		= Alexander Richter <alexanderrichtertd.com>
-#
-#************************************************************************************
+# header omitted
 
 #************************************************************************************
 # IMPORTS
