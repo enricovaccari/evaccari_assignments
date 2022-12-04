@@ -1,3 +1,20 @@
+#**********************************************************************************
+# content		= includes supprts functions for various operation
+#               = e.g. decorators, display data etc...
+#
+# version		= 1.0.0
+# date			= 12-11-2022
+#
+# how to		= ...
+# dependencies	= ...
+# todos         = ...
+# 
+# license		= (e.g. MIT)
+# author		= Enrico Vaccari <e.vaccari99@gmail.com>
+#
+# © ALL RIGHTS RESERVED
+#**********************************************************************************
+
 import os
 import sys
 import importlib as imp
@@ -55,15 +72,15 @@ def print_process(func):
         print(f'END - {round(elapsed_time, 1)}\n')
                         
     return wrapper
-'''
-def init_yaml(path):
-   if not os.path.exists(path):
-      user_data = []
-      with open(path, 'w') as outfile:
-         yaml.dump(user_data, outfile, default_flow_style=False, allow_unicode=True)
 
-init_yaml(r'C:\Users\Vaccari\Documents\maya\2022\scripts\maya_tool_manager\validate\temp\test.yml')
-'''
+# def init_yaml(path):
+#    if not os.path.exists(path):
+#       user_data = []
+#       with open(path, 'w') as outfile:
+#          yaml.dump(user_data, outfile, default_flow_style=False, allow_unicode=True)
+
+# init_yaml('C:\Users\Vaccari\Documents\maya\2022\scripts\maya_tool_manager\validate\temp\test.yml')
+
 
 def display_loaded(dir_list):
     tools_number = len(dir_list)
@@ -79,3 +96,35 @@ def display_validated(dir_list):
         return f'{SCRIPTS_PATH} is currently empty'
     else:
         return f'-{tools_number} Loaded'
+
+
+def custom_menu(name):
+    delete_custom_menu(name)
+
+    menu = cmds.menu(name, parent='MayaWindow',
+                     label=name, helpMenu=True, tearOff=True)
+    print(menu)
+    
+
+def delete_custom_menu(name):
+    if cmds.menu(name, query=True, exists=True):
+        cmds.deleteUI(name, menu=True)
+
+
+def custom_shelf(name):
+    delete_custom_shelf(name)
+
+    shelf_layout = cmds.shelfLayout(name, parent="ShelfLayout")
+    return shelf_layout
+
+
+def delete_custom_shelf(name):
+    if cmds.shelfLayout(name, exists=True):
+        cmds.deleteUI(name)
+
+
+# cmds.shelfButton(parent=name,
+#                      annotation='evaccari_automatic_texture_plugger',
+#                      image1=APP_DIR + '/OTHERS/ICONS/evaccari_automatic_texture_plugger_thumbnail.png',
+#                      command='smfct.reload_modules();import UI_functions as ui;ui.create_UI()')
+

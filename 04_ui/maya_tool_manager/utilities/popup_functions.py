@@ -1,3 +1,21 @@
+#**********************************************************************************
+# content		= popup functions used for different purposes
+#               = general warning, check popup, type popup...
+#
+# version		= 1.0.0
+# date			= 20-10-2022
+#
+# how to		= general_warning(), check_popup(), type_popup()
+# dependencies	= ...
+# todos         = ...
+# 
+# license		= (e.g. MIT)
+# author		= Enrico Vaccari <e.vaccari99@gmail.com>
+#
+# © ALL RIGHTS RESERVED
+#**********************************************************************************
+
+
 import sys
 import maya.cmds as cmds
 
@@ -29,7 +47,7 @@ with open(yaml_file, 'r') as stream:
 #**********************************************************************************
 
 
-def general_warning(title, message): # set them to None
+def general_warning(title, message): 
    result = cmds.confirmDialog(title=title,
                                message=message,
                                button=user_config['general_warning']['button'],
@@ -41,7 +59,7 @@ def general_warning(title, message): # set them to None
                                backgroundColor=user_config['general_warning']['backgroundColor'])
 
 
-def check_popup(title, message): # set them to None
+def check_popup(title, message): 
    result = cmds.confirmDialog(title=title,
                                message=message,
                                button=['YES', 'NO', 'HELP'],
@@ -66,7 +84,7 @@ def type_popup(title, message): # set them to None
    return result
 
 
-def browse_main_target():
+def browse_main_target(tool_path):
    # has to be python file
    # add starting directory in Maya Automatic Texture Plugger
    main_target = cmds.fileDialog2(buttonBoxOrientation=1,
@@ -76,5 +94,5 @@ def browse_main_target():
                                   fileMode=1,
                                   okCaption='SELECT',
                                   cancelCaption='CANCEL',
-                                  startingDirectory=SCRIPTS_PATH)
+                                  startingDirectory=tool_path)
    return main_target

@@ -2,17 +2,18 @@
 # content		= checks if tool has id/tool_type/short_name
 #               = writes out data in yaml file (temp)
 #
-# version		= 0.0.1
+# version		= 1.0.0
 # date			= 27-10-2022
 #
 # how to		= id_check(tool_path)
 #                 main_script_check(tool_path)
 #                 check_sum(id_check, main_check)
-#                 append_if_valid(tool_name, check_sum)
-# dependencies	= ...
-# todos         = ...
+#                 append_if_valid(tool_name, tool_path, main_target, check_sum)
+#
+# dependencies	= Maya 2022, Qt, Python 3
+# todos         = - optimise code
 # 
-# license		= (e.g. MIT)
+# license		= MIT
 # author		= Enrico Vaccari <e.vaccari99@gmail.com>
 #
 # © ALL RIGHTS RESERVED
@@ -21,7 +22,7 @@
 import os
 import sys
 import importlib as imp
-# import webbrowser as wb 
+import webbrowser as wb 
 
 import maya.cmds as cmds
 
@@ -39,17 +40,16 @@ YAML_PATH       = f'{MTM_PATH}/lib/extern'
 
 ID_TARGETS      = ['short_name', 'tool_type']
 
-validated_tools = []
+validated_tools = {}
 
 if UTILITIES_PATH not in sys.path:
     sys.path.append(UTILITIES_PATH)
 
 import popup_functions as pf
 
-try:
-    imp.reload(pf)
-except:
-    reload(pf)
+
+imp.reload(pf)
+
 
 try:
     import yaml
@@ -62,8 +62,6 @@ yaml_file = MTM_PATH + '/config/user_config.yml'
 with open(yaml_file, 'r') as stream:
     user_config = yaml.safe_load(stream)
 
-print(user_config['general_warning']['cancelButton'])
-
 
 #**********************************************************************************
 # FUNCTIONS
@@ -72,7 +70,7 @@ print(user_config['general_warning']['cancelButton'])
 
 # VALIDATE (1) - id dir/tool_type/short_name
 def id_check(tool_path):
-    """ Checks if tool has id directory and whether it contains tool_type/short_name
+    """ Checks if tool has id directory/short_name/tool_type
 
     Args:
         tool_path (str): full tool path
@@ -91,7 +89,6 @@ def id_check(tool_path):
     if not os.path.isdir(id_path):
         title   = 'ID CHECK POPUP WINDOW (missing directory)'
         message = f'WAIT! The following tool: {tool_name} has currently no <id> directory. Do you want to create one? If not, this tool will be skipped.' 
-        # put message into yaml and use .format to add tool name
         result  = pf.check_popup(title, message)
         
         if result == 'YES':
@@ -100,7 +97,7 @@ def id_check(tool_path):
             return 0
         elif result == 'HELP':
             print('HELP')
-            # wb.open('documentation_link')
+            wb.open('https://github.com/enricovaccari/evaccari_assignments/wiki')
             return 0
         
     #******************************************************************************
@@ -129,19 +126,17 @@ def id_check(tool_path):
         
         if result == 'YES':
             try:
-                suffix = str(input('Insert tool short name (Example for Auto_Rigger: AuRi)'))
+                suffix = str(input('Insert tool short name for {tool_name} (e.g. for merge_curves_tool: MgCvs)'))
                 file_name = f'short_name_{suffix}.txt'
                 file_path = f'{id_path}/{file_name}'
                 with open(file_path, 'w') as outfile:
                     pass
             except:
-                print('No name specified')
                 return 0
         elif result == 'NO':
             return 0
         elif result == 'HELP':
-            print('HELP')
-            # wb.open('documentation_link'')
+            wb.open('https://github.com/enricovaccari/evaccari_assignments/wiki')
             return 0
     
     #******************************************************************************
@@ -178,17 +173,17 @@ def id_check(tool_path):
     
     return 1
 
+
 # VALIDATE (2) - main script
 def main_script_check(tool_path):
     """
-    Checks if too has id directory containing tool_type and short_name
+    Checks if tool has main.py file
 
     Args:
         tool_path (str): full tool path
-        tool_content (List): file/directories contained in the tool
 
     Returns:
-        int: returns 0 if tool does NOT pass the check, 1 if it does 
+        list: [0 if tool does NOT pass the check / 1 if it does + main file path]
     """  
 
     #******************************************************************************
@@ -199,34 +194,41 @@ def main_script_check(tool_path):
     
     #******************************************************************************
     # if main module does not exist
+    main_target = f'{tool_path}/main.py'
     if "main.py" not in tool_content:
         title   = 'MAIN SCRIPT WINDOW (missing file)'
         message = f'WAIT! The following tool: {tool_name} has currently no <main.py> file. Do you want to select a target file acting as a main? If not, this tool will be skipped' 
         result  = pf.check_popup(title, message)
         
         if result == 'YES':
-            main_target = pf.browse_main_target()
-            return 1
-            # write out in yaml
+            main_target = pf.browse_main_target(tool_path)[0]
         elif result == 'NO':
-            return 0
+            return 0, None
         elif result == 'HELP':
-            print('HELP')
-            # wb.open('insert link of Wiki')
-            return 0
+            wb.open('https://github.com/enricovaccari/evaccari_assignments/wiki')
+            return 0, None
 
-    return 1
+
+    return 1, main_target
 
 def check_sum(id_check, main_check):
     check_sum = id_check + main_check
     return check_sum
 
 # VALIDATE (3) - append to validates
-def append_if_valid(tool_name, check_sum):
+def append_if_valid(tool_name, tool_path, main_target, check_sum):
     if check_sum == 2:
-        validated_tools.append(tool_name)
+        validated_tools[tool_name] = [tool_path, None, None, main_target, None] # tool_path, short_name, type, main_file
     # else returns None
     return
 
 
+#**********************************************************************************
+# EXECUTION
+#**********************************************************************************
 
+
+# id_check(tool_path)
+# main_script_check(tool_path)
+# check_sum(id_check, main_check)
+# append_if_valid(tool_name, tool_path, main_target, check_sum)

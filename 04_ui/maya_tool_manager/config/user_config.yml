@@ -1,15 +1,13 @@
 #*********************************************************************************
 # content      = user configuration data
 #
-# version      = 0.1.0
-# date         = 2019-10-01
+# version      = 1.0.0
+# date         = 12-11-2022
 # 
-# how to       =
-# dependencies =
-# todos        =
+# todos        = fill out yaml with all the remaining data
 #
 # license      =
-# author       = Alexander Richter <alexanderrichtertd.com>
+# author       = Enrico Vaccari <e.vaccari99@gmail.com>
 # 
 #**********************************************************************************
 
@@ -27,8 +25,8 @@ name: Maya Tool Manager
 general_warning:
     # basic info (popup_functions module)
     button:
-        - GOT IT
-        - CANCEL
+        - 'YES'
+        - 'NO'
         - HELP
     
     icon:
@@ -59,3 +57,40 @@ general_warning:
     title:
         MAIN SCRIPT WINDOW (missing file)
 
+
+#**********************************************************************************
+
+check_popup:
+    # basic info (popup_functions module)
+    button:
+        - 'YES'
+        - 'NO'
+        - HELP
+    
+    icon:
+        warning
+    
+    defaultButton:
+        'YES'
+
+    cancelButton:
+        'NO'
+
+    dismissString:
+        'NO'
+
+    messageAlign:
+        center
+
+    backgroundColor:
+        - 0.80
+        - 0.58
+        - 0.00
+
+    # id check popup
+    title:
+        ID CHECK POPUP WINDOW (missing directory)
+    
+    # main check popup
+    title:
+        MAIN SCRIPT WINDOW (missing file)
